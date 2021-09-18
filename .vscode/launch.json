@@ -9,7 +9,11 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/.venv/bin/autoscout24_scraper",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "args": [
+                "-vvv"
+            ],
+            "justMyCode": false
         }
     ]
 }

@@ -1,9 +1,9 @@
 CREATE TABLE maker_model (
-    model VARCHAR(200) NOT NULL PRIMARY KEY,
+    model VARCHAR(200) NOT NULL,
     version VARCHAR(255),
     description TEXT,
     price DECIMAL(10,2),
-    purchase_details TEXT,
+    purchase_details TEXT, -- json
     mileage VARCHAR(100),
     first_registration VARCHAR(30),
     offer_type VARCHAR(30),
