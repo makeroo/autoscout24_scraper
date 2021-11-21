@@ -11,7 +11,9 @@
             "program": "${workspaceFolder}/.venv/bin/autoscout24_scraper",
             "console": "integratedTerminal",
             "args": [
-                "-vvv"
+                "-vvv",
+                "--price-to",
+                "40000"
             ],
             "justMyCode": false
         }

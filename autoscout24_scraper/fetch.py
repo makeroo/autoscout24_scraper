@@ -3,6 +3,7 @@ import logging
 import re
 from itertools import count
 from decimal import Decimal
+from urllib.parse import urlencode
 
 from bs4.element import Tag
 from mechanicalsoup import StatefulBrowser
@@ -36,7 +37,20 @@ class DataFetcher:
         self.br = StatefulBrowser()
         self.http_timeout = http_timeout
 
-    def fetch_all(self) -> Generator[Auto, None, None]:
+    def fetch_all(self, price_to: int, seats_from: int) -> Generator[Auto, None, None]:
+        self.qs = {
+            'sort': 'standard',
+            'desc': 0,
+            'fuel': 'E',
+            'ustate': 'N,U',
+            'size': '20',
+            #'page': page,
+            'cy': 'I',
+            'priceto': price_to,
+            'seatsfrom': seats_from,
+            'atype': 'C',
+        }
+
         for page in count(1):
             g = self.fetch(page)
 
@@ -51,9 +65,11 @@ class DataFetcher:
             yield from g
 
     def fetch(self, page: int) -> Generator[Auto, None, None]:
+        self.qs['page'] = page
+
         # open raises IOError -> RequestException
         resp = self.br.open(
-            f'https://www.autoscout24.it/lst?sort=standard&desc=0&fuel=E&ustate=N%2CU&size=20&page={page}&cy=I&priceto=20000&seatsfrom=5&atype=C&',
+            f'https://www.autoscout24.it/lst?{urlencode(self.qs)}',
             timeout=self.http_timeout,
         )
 

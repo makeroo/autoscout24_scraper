@@ -6,6 +6,8 @@ def main():
     parser.add_argument('-v', '--verbose', action='count', default=0)
     parser.add_argument('-d', '--database', default='~/.a24scraper.db')
     parser.add_argument('--http-timeout', type=float, default=20.0)
+    parser.add_argument('--price-to', type=int, default=20000)
+    parser.add_argument('--seats-from', type=int, default=5)
 
     args = parser.parse_args()
 
@@ -27,7 +29,12 @@ def main():
 
     fetcher = DataFetcher(args.http_timeout)
 
-    storage.store(fetcher.fetch_all())
+    storage.store(
+        fetcher.fetch_all(
+            price_to=args.price_to,
+            seats_from=args.seats_from,
+        )
+    )
 
     db_conn.close()
 
