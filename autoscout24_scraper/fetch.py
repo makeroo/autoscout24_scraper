@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class Auto(NamedTuple):
+    guid: str
     model: str
     version: str
     description: str
@@ -90,6 +91,8 @@ class DataFetcher:
         purchase_details = []
         price = None
 
+        guid = item.find('as24-share-menu').attrs['data-guid']
+
         for x in item.find('span', class_='cldt-price').text.split('\n'):
             if not x:
                 continue
@@ -109,6 +112,7 @@ class DataFetcher:
             )
 
         return Auto(
+            guid=guid,
             model=self._optional_text(item, 'h2', 'cldt-summary-makemodel'),
             version=self._optional_text(item, 'h2', 'cldt-summary-version'),
             description=self._optional_text(item, 'h3', 'cldt-summary-subheadline'),
